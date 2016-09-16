@@ -1,0 +1,12 @@
+mailmon/mailmonitor-conf-1.json
+mailmon/mailmonitor-conf-2.json
+mailmon/mailmonitor-conf-dist.json
+mailmon/MailMonitor/Delete.py
+mailmon/MailMonitor/Extract.py
+mailmon/MailMonitor/Forward.py
+mailmon/MailMonitor/__init__.py
+mailmon/MailMonitor/MailMonitor.py
+mailmon/MailMonitor/Move.py
+mailmon/MailMonitor/test/Delete.text
+mailmon/MailMonitor/test/Extract.text
+mailmon/mailmon.py
