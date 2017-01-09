@@ -1,4 +1,5 @@
 # -*- mode:python; -*-
 Unit test for Extract.py.
 
-
+>>> from Extract import Extract
+>>> tx = Extract({ "path": "/tmp" })

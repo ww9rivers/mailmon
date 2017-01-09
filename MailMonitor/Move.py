@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 #
-## $Id: Delete.py,v 1.1 2013/01/29 15:02:28 weiwang Exp $
-##
-## Module to extract and save attachments in mail messages.
+## Module to move mail messages to a folder.
 
 import datetime, os
 from MailMonitor import MailMonitor

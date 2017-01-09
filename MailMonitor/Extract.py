@@ -5,13 +5,13 @@
 ## Module to extract and save attachments in mail messages.
 
 import os, re
-from MailMonitor import MailMonitor
+from FileMonitor import FileMonitor
 from c9r.pylog import logger
 from c9r.file.util import forge_path
 from c9r.mail.parser import parse_date
 
 
-class Extract(MailMonitor):
+class Extract(FileMonitor):
     '''A MailMonitor module for extracting attachments.
 
     This module look for these configuration items in a mailmonitor job:
@@ -38,22 +38,8 @@ class Extract(MailMonitor):
             with open(outfname, "wb") as outf:
                 outf.write(part.read(part.size))
             os.utime(outfname, (getattr(part, 'atime', mtime), getattr(part, 'mtime', mtime)))
-            if self.to_print:
-                print(outfname)
+            self.display(outfname)
             logger.info("Extracted attachment '%s'"%(outfname))
-
-    def __init__(self, conf):
-        '''
-        Configure this object.
-        '''
-        MailMonitor.__init__(self, conf)
-        self.path = path = conf.get('path', '/var/log/mailmon')
-        if not os.path.isdir(path):
-            forge_path(path)
-        self.to_print = conf.get('print-name', False)
-        self.fix_name = None if not conf.get('fix-name', True)\
-            else re.compile('[^\w\d_\-\.]')
-        logger.info("Extract: path = %s" % (path))
 
 if __name__ == '__main__':
     import doctest

@@ -32,3 +32,5 @@ deploy.sh
 *.json-EMPF2
 *.json-NSS2
 *.json-NSSJ1
+mailmonitor-conf-1.json
+mailmonitor-conf-2.json

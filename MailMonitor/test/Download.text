@@ -1,0 +1,38 @@
+# -*- mode:python; -*-
+Unit test for Download.py.
+
+>>> from Download import Download
+>>> tx = Download({ "path": "/tmp", "verify": False, "print-name": True })
+>>> files = tx({
+...    "body": '''<meta http-equiv="Content-Type" content="text/html; charset=us-ascii">***** PLEASE DO NOT REPLY TO THIS AUTO GENERATED E-MAIL *****
+...             <br>
+...             <br>
+...             <b>Report Details</b>
+...		<br>
+...		<table border="1">
+...		<tr>
+...		<td>Report Type </td> <td>Managed Devices</td>
+...		</tr>
+...		<tr>
+...		<td>Report URL</td>
+...             <td><a target="Managed Devices" href="https://10.128.3.47/emsam/export/UsageReports/Managed_Devices_20170105_121143_666.csv">Managed Devices</a>
+...             </td>
+...             </tr>
+...             <tr>
+...             <td>Report Generation Date and Time </td> <td>2017-Jan-05 12:11:53 EST</td>
+...             </tr>
+...             <tr>
+...		<td>Report Status </td> <td>SUCCESS</td>
+...		</tr>
+...		</table>
+...		<br>
+...		<br>
+...		Contact Prime Collaboration Administrator if needed.
+...		<br>
+...		<br>
+...		<br>
+...		Prime Collaboration Admin'''
+...   })
+/tmp/Managed_Devices_20170105_121143_666.csv
+>>> import os
+>>> for fn in files: os.remove(fn)
