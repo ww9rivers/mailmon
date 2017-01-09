@@ -45,3 +45,4 @@ class MailMonitor:
 
     def __init__(self, conf):
         self.CONF = conf
+        self.fetching = True

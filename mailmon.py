@@ -73,6 +73,12 @@ class MailMonitorApp(Command):
     def __call__(self):
         """
         Go throught the configured "task" list to run them.
+
+        A task has these options:
+
+        "archive"       Set to a folder to archive messages, or False to not archive;
+                                Defaults to None -- to use global config.
+        "fetch"         Set to False if no fetching is needed; Defaults to True.
         """
         xc = self.CONF
         logger.debug("mailmon: called, IMAP = %s:%d" % (xc.imap.server, xc.imap.port))
@@ -94,15 +100,20 @@ class MailMonitorApp(Command):
             for auid in xuid[0].split():
                 if xtask.ignores_message(self.mbox, auid):
                     continue
-                result, data = self.mbox.fetch(auid)
-                if result != 'OK' or not isinstance(data, list):
-                    logger.warn("Bad IMAP.fetch{0} result: {1}, {2}".format(auid, result, data))
-                    continue
-                self.archive(auid, xtask.archive())
-                msg = self.parse(data[0][1])
-                if msg:
-                    logger.debug("IMAP.fetched: uid = %s, msg.subject = %s" % (auid, msg['subject']))
-                    xtask(msg)
+                if xtask.fetching is not False:
+                    result, data = self.mbox.fetch(auid)
+                    if result != 'OK' or not isinstance(data, list):
+                        logger.warn("Bad IMAP.fetch{0} result: {1}, {2}".format(auid, result, data))
+                        continue
+                abox = xtask.archive()
+                if abox is not False: self.archive(auid, abox)
+                if xtask.fetching is not False:
+                    msg = self.parse(data[0][1])
+                    if msg:
+                        logger.debug("IMAP.fetched: uid = %s, msg.subject = %s" % (auid, msg['subject']))
+                        xtask(msg)
+            pass # end of all message for one task
+        pass # end of tasks
         self.smtp.quit()
         sys.exit(0)
 

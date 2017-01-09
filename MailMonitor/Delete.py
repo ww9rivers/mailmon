@@ -49,6 +49,7 @@ class Delete(MailMonitor):
         self.days = datetime.timedelta(days)
         self.limit = conf.get('limit', 1000)
         self.stop = conf.get('stop', True)
+        self.fetching = conf.get('fetch') or False
         if conf.util.debug:
             logger.debug("MailMonitor.Delete: days = {0}, limit = {1}".format(days, self.limit))
 
