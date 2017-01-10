@@ -48,4 +48,5 @@ class MailMonitor:
     def __init__(self, conf, default_days=60):
         self.CONF = conf
         self.fetching = True
-        self.days = datetime.timedelta(conf.get('days') or default_days)
+        days = conf.get('days')
+        self.days = datetime.timedelta(default_days if days is None else days)
