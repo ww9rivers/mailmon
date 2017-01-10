@@ -26,7 +26,7 @@ class Download(FileMonitor):
         end_dl = self.end_dl
         files = []
         linecnt = 0
-        for line in StringIO(msg.get('body') or ''):
+        for line in StringIO(msg.get('body') or msg.get('html') or ''):
             mx = self.url.search(line)
             linecnt += 1
             if mx:
