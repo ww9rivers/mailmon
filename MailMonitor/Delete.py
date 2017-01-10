@@ -37,7 +37,7 @@ class Delete(MailMonitor):
         '''
         logger.debug('Ignored message (%s): (%s)'%(msg.get('uid', 'N/A'), msg.get('subject', 'N/A')))
 
-    def __init__(self, conf):
+    def __init__(self, conf, default_days=60):
         '''Configure this object.
 
         .days   Only delete mails older than given number of days. Defaults to 60.

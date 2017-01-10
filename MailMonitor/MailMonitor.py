@@ -45,7 +45,7 @@ class MailMonitor:
         '''
         raise Exception('Unhandled message (%s): (%s)'%(msg.get('uid', 'N/A'), msg.get('subject', 'N/A')))
 
-    def __init__(self, conf):
+    def __init__(self, conf, default_days=60):
         self.CONF = conf
         self.fetching = True
-        self.days = datetime.timedelta(conf.get('days') or 60)
+        self.days = datetime.timedelta(conf.get('days') or default_days)

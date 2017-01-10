@@ -9,11 +9,11 @@ class Move(Delete):
     '''
     Move/archive old email messages.
     '''
-    def __init__(self, conf, default_days=1):
+    def __init__(self, conf, default_days=0):
         '''
         Configure this object: Force "archive".
         '''
-        Delete.__init__(self, conf)
+        Delete.__init__(self, conf, default_days)
         self.stop = False
         if not self.archive(): self.CONF['archive'] = 'Archive'
 
