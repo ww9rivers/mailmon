@@ -15,7 +15,7 @@ class Download(FileMonitor):
     '''
     def search(self):
         slist = list(self.CONF.get('search', []))
-        slist.append((datetime.datetime.now()-self.days).strftime("SENTBEFORE \"%d-%b-%Y\""))
+        slist.append((datetime.datetime.now()-self.days).strftime("SENTSINCE \"%d-%b-%Y\""))
         return slist
 
     def __call__(self, msg):
