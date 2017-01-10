@@ -45,13 +45,11 @@ class Delete(MailMonitor):
         .stop   True if not continuing to process the messages found by this task.
         '''
         MailMonitor.__init__(self, conf)
-        days = conf.get('days', 60)
-        self.days = datetime.timedelta(days)
         self.limit = conf.get('limit', 1000)
         self.stop = conf.get('stop', True)
         self.fetching = conf.get('fetch') or False
         if not self.archive(): self.CONF['archive'] = False
-        logger.debug("MailMonitor.Delete: days = {0}, limit = {1}".format(days, self.limit))
+        logger.debug("MailMonitor.Delete: days = {0}, limit = {1}".format(self.days, self.limit))
 
 if __name__ == "__main__":
     import doctest

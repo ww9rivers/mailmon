@@ -19,3 +19,5 @@ Test 1:
 False
 >>> tx.archive()
 False
+>>> tx.days
+datetime.timedelta(28)

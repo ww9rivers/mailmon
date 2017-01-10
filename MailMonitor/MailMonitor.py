@@ -4,6 +4,8 @@
 ##
 ## Base module for email monitor plugins.
 
+import datetime
+
 
 class MailMonitor:
     '''
@@ -46,3 +48,4 @@ class MailMonitor:
     def __init__(self, conf):
         self.CONF = conf
         self.fetching = True
+        self.days = datetime.timedelta(conf.get('days') or 60)
