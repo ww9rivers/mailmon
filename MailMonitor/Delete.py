@@ -17,7 +17,7 @@ class Delete(MailMonitor):
         '''Returns true if the message is deleted.
         '''
         if self.limit > 0:
-            logger.info("MailMonitor.Delete: uid = %s" % (auid))
+            logger.info("MailMonitor.{0}: uid = {1}".format(type(self).__name__, auid))
             self.limit -= 1
             mbox.delete(auid)
         return self.stop
@@ -49,7 +49,7 @@ class Delete(MailMonitor):
         self.stop = conf.get('stop', True)
         self.fetching = conf.get('fetch') or False
         if not self.archive(): self.CONF['archive'] = False
-        logger.debug("MailMonitor.Delete: days = {0}, limit = {1}".format(self.days, self.limit))
+        logger.debug("MailMonitor.{0}: days = {1}, limit = {2}".format(type(self).__name__, self.days, self.limit))
 
 if __name__ == "__main__":
     import doctest
