@@ -14,6 +14,7 @@ class Move(Delete):
         Configure this object: Force "archive".
         '''
         Delete.__init__(self, conf)
+        self.stop = False
         if not self.archive(): self.CONF['archive'] = 'Archive'
 
 
