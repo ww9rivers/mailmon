@@ -7,7 +7,7 @@
 import datetime
 
 
-class MailMonitor:
+class MailMonitor(object):
     '''
     Base plugin object for MailMonitorApp.
     '''

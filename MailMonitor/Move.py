@@ -9,12 +9,19 @@ class Move(Delete):
     '''
     Move/archive old email messages.
     '''
+    def ignores_message(self, mbox, auid):
+        '''Returns true if the message is deleted.
+        '''
+        if self.limit > 0:
+            logger.info("MailMonitor.{0}: uid = {1}".format(type(self).__name__, auid))
+            self.limit -= 1
+        return False
+
     def __init__(self, conf, default_days=0):
         '''
         Configure this object: Force "archive".
         '''
         Delete.__init__(self, conf, default_days)
-        self.stop = False
         if not self.archive(): self.CONF['archive'] = 'Archive'
 
 
