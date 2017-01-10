@@ -25,8 +25,10 @@ class Download(FileMonitor):
         '''
         end_dl = self.end_dl
         files = []
+        linecnt = 0
         for line in StringIO(msg.get('body') or ''):
             mx = self.url.search(line)
+            linecnt += 1
             if mx:
                 url = mx.groups()[0]
                 logger.debug('Downloading file: %s' % (url))
@@ -36,7 +38,7 @@ class Download(FileMonitor):
             if end_dl:
                 if isinstance(end_dl, int) and len(files) >= end_dl: break
                 if end_dl.search(line): break
-        logger.debug('Downloaded {0} files'.format(len(files)))
+        logger.debug('Downloaded {0} files ({1} lines)'.format(len(files), linecnt))
         return files
 
     def __init__(self, conf):
