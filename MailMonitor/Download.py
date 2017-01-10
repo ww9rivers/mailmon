@@ -24,20 +24,19 @@ class Download(FileMonitor):
         Returns a list of files downloaded.
         '''
         end_dl = self.end_dl
-        cnt = 0
         files = []
         for line in StringIO(msg.get('body') or ''):
             mx = self.url.search(line)
             if mx:
-                cnt += 1
                 url = mx.groups()[0]
                 logger.debug('Downloading file: %s' % (url))
                 fname = http.get(url, self.path, self.options)
                 self.display(fname)
                 files.append(fname)
             if end_dl:
-                if isinstance(end_dl, int) and cnt >= end_dl: break
+                if isinstance(end_dl, int) and len(files) >= end_dl: break
                 if end_dl.search(line): break
+        logger.debug('Downloaded {0} files'.format(len(files)))
         return files
 
     def __init__(self, conf):
