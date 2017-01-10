@@ -11,7 +11,12 @@ class Move(Delete):
     '''
     def __init__(self, conf, default_days=1):
         '''
-        Configure this object.
+        Configure this object: Force "archive".
         '''
         Delete.__init__(self, conf)
-        if not slef.archive(): self.CONF['archive'] = 'Archive'
+        if not self.archive(): self.CONF['archive'] = 'Archive'
+
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testfile('test/Move.text')

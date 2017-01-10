@@ -50,8 +50,8 @@ class Delete(MailMonitor):
         self.limit = conf.get('limit', 1000)
         self.stop = conf.get('stop', True)
         self.fetching = conf.get('fetch') or False
-        if conf.util.debug:
-            logger.debug("MailMonitor.Delete: days = {0}, limit = {1}".format(days, self.limit))
+        if not self.archive(): self.CONF['archive'] = False
+        logger.debug("MailMonitor.Delete: days = {0}, limit = {1}".format(days, self.limit))
 
 if __name__ == "__main__":
     import doctest

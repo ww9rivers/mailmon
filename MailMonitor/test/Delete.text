@@ -2,3 +2,20 @@
 Unit test for Delete.py
 
 Test 1: 
+
+>>> from Delete import Delete
+>>> tx = Delete({
+...     "action":	"Delete",
+...     "days":		28,
+...     "mailbox":	"Archive/cron",
+...     "limit":	1000,
+...     "search":
+...     [
+...     	"HEADER Subject \"Output from cron job \""
+...     ],
+...     "":		"#"
+...   })
+>>> tx.fetching
+False
+>>> tx.archive()
+False

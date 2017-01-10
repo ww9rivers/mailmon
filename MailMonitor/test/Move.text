@@ -1,0 +1,17 @@
+# -*- mode:python; -*-
+Unit test for Extract.py.
+
+>>> from Move import Move
+>>> tx = Move({
+...     "days":		1,
+...     "archive":	"Archive/cron",
+...     "search":
+...     [
+...             "HEADER Subject \"Cron \""
+...     ],
+...     "":		"#"
+...   })
+>>> tx.fetching
+False
+>>> tx.archive()
+'Archive/cron'
