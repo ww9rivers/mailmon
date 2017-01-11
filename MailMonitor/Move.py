@@ -3,6 +3,7 @@
 ## Module to move mail messages to a folder.
 
 from Delete import Delete
+from c9r.pylog import logger
 
 
 class Move(Delete):
