@@ -4,7 +4,7 @@
 ##
 ## Class for modules that need to deal with file(s) in email.
 
-import os, re
+import os, re, time
 from MailMonitor import MailMonitor
 from c9r.pylog import logger
 from c9r.file.util import forge_path
@@ -26,12 +26,27 @@ class FileMonitor(MailMonitor):
         '''
         if self.to_print: print(fname)
 
+    def output_filename(self, fname):
+        '''Create an output filename with configured "path" and given "fname",
+        as well as optionally configured regex-based fix on the file name.
+        '''
+        return fname if os.path.isabs(fname) else\
+            os.path.join(self.path, fn if self.fix_name is None else\
+                             '-'.join(self.fix_name.split(fn)))
+
+    def routate_filename(self, fntemp):
+        '''Create a fixed output filename, with a given template "fntemp",
+        with current time applied, to allow automatic file rotation.
+        '''
+        return time.strftime(self.output_filename(fntemp))
+
     def __init__(self, conf):
         '''
         Configure this object.
         '''
         MailMonitor.__init__(self, conf)
-        self.path = path = conf.get('path') or '/var/log/mailmon'
+        path = os.path.dirname(conf.get('output') or '')
+        self.path = path = conf.get('path') or path or '/var/log/mailmon'
         if not os.path.isdir(path):
             forge_path(path)
         self.to_print = conf.get('print-name', False)

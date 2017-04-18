@@ -1,0 +1,218 @@
+{ "": [	" -*- mode:Text; indent-tabs-mode:t; -*- ",
+
+	"---- CAUTION: ----",
+
+	"  THIS FILE NEED TO BE MADE READABLE ONLY TO THE OWNER AS IT CONTAINS SENSITIVE INFORMATION  ",
+	"---------------------------------------------------------------------------------------------"
+],
+"Version":	"2017-04-18 weiwang",
+
+"user":		"splunk-admin",
+
+"imap":
+{
+	"server":	"email.med.umich.edu",
+	"port":		993
+},
+
+"tasklist":
+	[
+		"cron", "cron-archive",
+		"ironport-reports",	"purge-ironport-reports",
+		"wired-clients",
+		"CiscoVoIPInventory",
+		"page-test",		"purge-page-test",
+		"delete-archive"
+	],
+"-tasklist":
+	[
+		"ncsmon", "ciscoPIreports"
+	],
+
+"smtp":
+{
+	"":		"Regular internal SMTP server -- no transport security",
+	"server":	"smail-int.med.umich.edu",
+	"port":		25,
+	"":		"--"
+},
+"#smtp":
+{
+	"":
+	[
+		"May need to use this one if the internal SMTP server is not reachable",
+		"--  May need to change the code to start TLS",
+		"----"
+	],
+	"server":	"email.med.umich.edu",
+	"port":		587,
+	"":		"#"
+},
+
+"ncsmon":
+{
+	"note":
+	[
+		"Task to monitor email messages, extract and save attachments to specified folder,",
+		"--  'action' is a required MailMonitor plugin name.",
+		"--  'path' is an optional folder name, defaults to '/var/log/mailmon'.",
+		"----"
+	],
+	"search":
+	[
+		"UNSEEN",
+		"HEADER Subject \"Report: Client Count - Wireless-Client-Count\"",
+		"HEADER From NCS@med.umich.edu"
+	],
+	"action":	"Extract",
+	"archive":	"NCSmon",
+	"path":		"/app/var/ncsmon",
+	"":		"#"
+},
+
+"cron-archive":
+{
+	"action":	"Move",
+	"days":		1,
+	"archive":	"Archive/cron",
+	"search":
+	[
+		"HEADER Subject \"Cron \""
+	],
+	"note":
+	[
+		"Task to archive cron messages,",
+		"----"
+	],
+	"":		"#"
+},
+
+"delete-archive":
+{
+	"action":	"Delete",
+	"days":		60,
+	"mailbox":	"Archive",
+	"limit":	1000,
+	"":		"#"
+},
+
+"cron":
+{
+	"action":	"Delete",
+	"days":		28,
+	"mailbox":	"Archive/cron",
+	"limit":	3000,
+	"search":
+	[
+		"OR (HEADER Subject \"Output from cron job \") (HEADER Subject Cron)"
+	],
+	"":		"#"
+},
+
+"ciscoPIreports":
+{
+	"note":
+	[
+		"Task to monitor email messages, extract and save attachments to specified folder,",
+		"--  'action' is a required MailMonitor plugin name.",
+		"--  'path' is an optional folder name, defaults to '/var/log/mailmon'.",
+		"--  'print-name' set to true to print file name after action. Defaults to false.",
+		"----"
+	],
+	"search":
+	[
+		"UNSEEN",
+		"HEADER Subject \"Report: Unique Clients - \"",
+		"HEADER From PI@",
+		"OR (HEADER From prime01.mcit.med.umich.edu) (HEADER From prime01.domainName)"
+	],
+	"action":	"Extract",
+	"archive":	"wired-clients",
+	"path":		"/app/var/device-reports",
+	"print-name":	true,
+	"":		"#"
+},
+
+"CiscoVoIPInventory":
+{
+	"action":	"Download",
+	"search":
+	[
+		"UNSEEN",
+		"HEADER Subject \"Report - \"",
+		"HEADER From CPCA@"
+	],
+	"archive":	"Archive",
+	"path":		"/app/var/cpca",
+	"verify-cert":	false,
+	"note":
+	[
+		"Task to retrieve Cisco Prime Collaboration Assurance reports",
+		""
+	]
+},
+
+"ironport-reports":
+{
+	"action":	"Extract",
+	"mailbox":	"Inbox",
+	"search":
+	[
+		"HEADER Subject \"Cisco Report: \"",
+		"HEADER From reporting@ironportsma.med.umich.edu",
+		"UNSEEN"
+	],
+	"archive":	"Archive/ironport",
+	"path":		"/app/var/exchange",
+	"print-name":	true,
+	"":		" - end of ironport-report - "
+},
+"purge-ironport-reports":
+{
+	"action":	"Delete",
+	"mailbox":	"Archive/ironport",
+	"days":		60,
+	"limit":	1000,
+	"":		" - end of ironport-report - "
+},
+
+"page-test":
+{
+	"action":	"LogJson",
+	"search":
+	[
+		"HEADER FROM no.reply@pagecopy.net",
+		"HEADER Message-ID myairmail.com"
+	],
+	"archive":	"Archive/paging",
+	"output":	"/app/var/log/paging/test-%F"
+},
+"purge-page-test":
+{
+	"action":	"Delete",
+	"mailbox":	"Archive/paging",
+	"days":		60,
+	"limit":	400
+},
+
+"wired-clients":
+{
+	"action":	"Delete",
+	"days":		180,
+	"limit":	100,
+	"mailbox":	"wired-clients",
+	"search":
+	[
+		"SEEN",
+		"HEADER Subject \"Report: \"",
+		"OR (HEADER From prime01.mcit.med.umich.edu) (HEADER From prime01.domainName)"
+	],
+	"":		"#"
+},
+
+"archive":	"MISent",
+"expunge":	true,
+"incidentSpan":	930,
+
+"":	"-- End -- "
+}

@@ -31,10 +31,7 @@ class Extract(FileMonitor):
         '''
         mtime = parse_date(msg)
         for part in msg['attachments']:
-            fn = part.name
-            outfname = os.path.join(self.path,
-                                    fn if self.fix_name is None\
-                                        else '-'.join(self.fix_name.split(fn)))
+            outfname = self.output_filename(part.name)
             with open(outfname, "wb") as outf:
                 outf.write(part.read(part.size))
             os.utime(outfname, (getattr(part, 'atime', mtime), getattr(part, 'mtime', mtime)))

@@ -17,6 +17,9 @@ class MailMonitor(object):
         '''
         return self.CONF.get('archive')
 
+    def config(self, item):
+        return self.CONF.get(item)
+
     def ignores_message(self, mbox, auid):
         '''
         Returns true if the message is irrelevant. This method allows a plugin
@@ -28,7 +31,7 @@ class MailMonitor(object):
     def mailbox(self):
         '''Retrieve 'mailbox' configuration for this task. Defaults to None.
         '''
-        return self.CONF.get('mailbox')
+        return self.config('mailbox')
 
     def search(self):
         '''
@@ -36,7 +39,7 @@ class MailMonitor(object):
 
         Reference: c9r.mail.imap4
         '''
-        return self.CONF.search
+        return self.config('search')
 
     def __call__(self, msg):
         '''
